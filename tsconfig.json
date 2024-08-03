@@ -15,8 +15,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2022",
-    "types": ["jest", "node"],
+    "types": ["jest", "node"]
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["dist", "node_modules", "**/*.spec.ts"],
+  "exclude": ["dist", "node_modules", "**/*.spec.ts"]
 }

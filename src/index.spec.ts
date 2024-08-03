@@ -20,7 +20,11 @@ describe('Entry Point', () => {
     (rawlist as jest.Mock).mockResolvedValueOnce('exit');
     require('./index');
 
-    expect(figlet.textSync).toHaveBeenCalledWith('MarketPlacer Code Challenge!');
-    expect(consoleLogSpy).toHaveBeenCalledWith('Mocked MarketPlacer Code Challenge!');
+    expect(figlet.textSync).toHaveBeenCalledWith(
+      'MarketPlacer Code Challenge!'
+    );
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      'Mocked MarketPlacer Code Challenge!'
+    );
   });
 });

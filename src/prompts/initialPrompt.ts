@@ -1,8 +1,9 @@
-import figlet from 'figlet';
-import chalk from 'chalk';
 import { rawlist } from '@inquirer/prompts';
-import Product, { ProductType } from '../models/product';
+import chalk from 'chalk';
 import Table from 'cli-table';
+import figlet from 'figlet';
+import Product, { ProductType } from '../models/product';
+import showProductPrompt from './showProductPrompt';
 
 enum PromptAnswer {
   ListProducts = 'listProducts',
@@ -24,21 +25,22 @@ const initialPrompt = async () => {
     ],
   });
 
-  switch(promptAnswer) {
+  switch (promptAnswer) {
     case PromptAnswer.ListProducts:
       const table = new Table();
       const products: ProductType[] = Product.all();
 
-      table.push([
-        chalk.bold.blue('Product'),
-        chalk.bold.blue('Price')
-      ]);
+      table.push([chalk.bold.blue('Product'), chalk.bold.blue('Price')]);
 
       for (const product of products) {
         table.push([product.name, product.price]);
       }
       console.log(table.toString());
       initialPrompt();
+      break;
+
+    case PromptAnswer.ShowProduct:
+      showProductPrompt();
       break;
 
     case PromptAnswer.Exit:
@@ -50,6 +52,6 @@ const initialPrompt = async () => {
       initialPrompt();
       break;
   }
-}
+};
 
 export default initialPrompt;

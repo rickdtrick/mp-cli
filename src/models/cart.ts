@@ -1,38 +1,42 @@
-import { writeFileSync } from 'fs';
-import cartItems from './cartItems.json';
+import { readFileSync, writeFileSync } from 'fs';
+import path from 'path';
 
 export type CartItemType = {
   uuid: number;
-  productId: number;
+  productUuid: number;
   quantity: number;
 };
 
 export type CartItemCreateType = {
-  productId: number,
+  productUuid: number,
   quantity: number
 }
 
+const filePath = path.join(__dirname , '../data/cartItems.json');
 class CartItem {
-  static all = (): CartItemType[] => cartItems;
+  static all = (): CartItemType[] => {
+    const data = readFileSync(filePath, 'utf-8');
+    return JSON.parse(data);
+  };
   static find = (uuid: number): CartItemType | undefined =>
     this.all().find((cartItem) => cartItem.uuid === uuid);
   static create = (data: CartItemCreateType): CartItemType | undefined => {
-    const { productId, quantity} = data;
+    const { productUuid, quantity} = data;
 
     const uuid = this.#generateUniqueId();
     const newCartItem: CartItemType = {
       uuid,
-      productId,
+      productUuid,
       quantity
     }
-    const updatedCart = [...this.all(), newCartItem]  
 
     try {
-      writeFileSync('cartItems.json', JSON.stringify(updatedCart));
+      const updatedCart = [...this.all(), newCartItem];
+      const record: string = JSON.stringify(updatedCart);
+      writeFileSync(filePath, record);
 
       return newCartItem;
     } catch (err) {
-      console.error(err)
       return;
     }
   }

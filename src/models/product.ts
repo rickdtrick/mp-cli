@@ -1,9 +1,18 @@
-import productsData from './products.json';
+import { readFileSync } from 'fs';
+import path from 'path';
 
-export type ProductType = (typeof productsData)[0];
 
+const filePath = path.join(__dirname , '../data/products.json');
+export type ProductType = {
+  uuid: number;
+  name: string; 
+  price: string; 
+};
 class Product {
-  static all = (): ProductType[] => productsData;
+  static all = (): ProductType[] => {
+    const data = readFileSync(filePath, 'utf-8');
+    return JSON.parse(data);
+  }
   static find = (uuid: number): ProductType | undefined =>
     this.all().find((product) => product.uuid === uuid);
 }

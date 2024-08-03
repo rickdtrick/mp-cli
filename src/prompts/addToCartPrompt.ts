@@ -1,8 +1,8 @@
+import { number, rawlist } from '@inquirer/prompts';
 import chalk from 'chalk';
-import { rawlist } from '@inquirer/prompts';
-import initialPrompt from './initialPrompt';
+import CartItem, { CartItemCreateType } from '../models/cart';
 import Product, { ProductType } from '../models/product';
-import Table from 'cli-table';
+import initialPrompt from './initialPrompt';
 
 const addToCartPrompt = async () => {
   const products: ProductType[] = Product.all();
@@ -10,7 +10,7 @@ const addToCartPrompt = async () => {
   let choices: { name: string; value: string }[] = products.map(product => ({ name: product.name, value: product.uuid.toString() }))
   choices.push({name: 'I changed my mind (Go Back)', value: 'back' })
 
-  const promptAnswer: string = await rawlist({message: chalk.green('which product do you want to add?'), choices });
+  const promptAnswer: string = await rawlist({message: chalk.green('Which product do you want to add?'), choices });
 
   if (promptAnswer === 'back') initialPrompt();
   else {
@@ -19,17 +19,21 @@ const addToCartPrompt = async () => {
     if (!product) {
       console.error(chalk.red('Product not found.'));
     } else {
-      const table = new Table();
-      table.push(
-        [
-          chalk.bold.blue('Product'),
-          chalk.bold.blue('Price')
-        ],
-        [product.name, product.price]
-      );
 
-      console.log(table.toString())
-      initialPrompt();
+      const quantity: number | undefined = await number({ message: `How many ${product.name} do you want?`})
+      if (quantity) {
+        const data: CartItemCreateType = {
+          productUuid: product.uuid,
+          quantity
+        }
+        const cartItem = CartItem.create(data);
+        if (cartItem) {
+          console.log(chalk.green('Product added to cart!'))
+        } else {
+          console.log(chalk.red('Failed to add product'))
+        }
+        initialPrompt();
+      }
     }
   }
 }

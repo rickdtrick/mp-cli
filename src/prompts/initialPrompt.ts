@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import figlet from 'figlet';
 import showProductPrompt from './showProductPrompt';
 import showProductsPrompt from './showProductsPrompt';
+import addToCartPrompt from './addToCartPrompt';
 
 enum PromptAnswer {
   ShowProducts = 'showProducts',
@@ -34,6 +35,7 @@ const initialPrompt = async () => {
       break;
 
     case PromptAnswer.AddToCart:
+      addToCartPrompt();
       break;
 
     case PromptAnswer.Exit:

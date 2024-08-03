@@ -4,13 +4,13 @@ import initialPrompt from './initialPrompt';
 import Product, { ProductType } from '../models/product';
 import Table from 'cli-table';
 
-const showProductPrompt = async () => {
+const addToCartPrompt = async () => {
   const products: ProductType[] = Product.all();
 
   let choices: { name: string; value: string }[] = products.map(product => ({ name: product.name, value: product.uuid.toString() }))
   choices.push({name: 'I changed my mind (Go Back)', value: 'back' })
 
-  const promptAnswer: string = await rawlist({message: chalk.green('which product details do you want to view?'), choices });
+  const promptAnswer: string = await rawlist({message: chalk.green('which product do you want to add?'), choices });
 
   if (promptAnswer === 'back') initialPrompt();
   else {
@@ -34,4 +34,4 @@ const showProductPrompt = async () => {
   }
 }
 
-export default showProductPrompt;
+export default addToCartPrompt;

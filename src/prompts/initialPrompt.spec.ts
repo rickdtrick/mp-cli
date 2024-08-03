@@ -19,20 +19,17 @@ describe('initialPrompt', () => {
     jest.clearAllMocks();
   });
 
-  it('should list products when "Show list of products" is selected', async () => {
-    // Mocking the rawlist response
+  it('should list all products when "Show all products" is selected', async () => {
     (rawlist as jest.Mock)
-      .mockResolvedValueOnce('listProducts') // First call
-      .mockResolvedValueOnce('exit'); // Second call to end the recursion
+      .mockResolvedValueOnce('showProducts')
+      .mockResolvedValueOnce('exit');
 
-    // Mocking the Product.all() method
     const mockProducts: ProductType[] = [
       { uuid: 1, name: 'Product 1', price: '100' },
       { uuid: 2, name: 'Product 2', price: '200' },
     ];
     jest.spyOn(Product, 'all').mockReturnValue(mockProducts);
 
-    // Mocking Table
     const mockTablePush = jest.fn();
     const mockTableToString = jest.fn().mockReturnValue('Mocked Table');
     (Table as unknown as jest.Mock).mockImplementation(() => ({
@@ -42,7 +39,6 @@ describe('initialPrompt', () => {
 
     await initialPrompt();
 
-    // Verify table calls
     expect(mockTablePush).toHaveBeenCalledWith([
       chalk.bold.blue('Product'),
       chalk.bold.blue('Price'),
@@ -51,7 +47,6 @@ describe('initialPrompt', () => {
       expect(mockTablePush).toHaveBeenCalledWith([product.name, product.price]);
     }
 
-    // Check if the table is logged correctly
     expect(consoleLogSpy).toHaveBeenCalledWith('Mocked Table');
   });
 
@@ -65,8 +60,8 @@ describe('initialPrompt', () => {
 
   it('should show "Coming Soon" for unimplemented options', async () => {
     (rawlist as jest.Mock)
-      .mockResolvedValueOnce('showProduct') // First call
-      .mockResolvedValueOnce('exit'); // Second call to end the recursion
+      .mockResolvedValueOnce('comingSoon') 
+      .mockResolvedValueOnce('exit');
 
     await initialPrompt();
 

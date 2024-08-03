@@ -1,12 +1,11 @@
 import { rawlist } from '@inquirer/prompts';
 import chalk from 'chalk';
-import Table from 'cli-table';
 import figlet from 'figlet';
-import Product, { ProductType } from '../models/product';
 import showProductPrompt from './showProductPrompt';
+import showProductsPrompt from './showProductsPrompt';
 
 enum PromptAnswer {
-  ListProducts = 'listProducts',
+  ShowProducts = 'showProducts',
   ShowProduct = 'showProduct',
   AddToCart = 'addToCart',
   Checkout = 'checkout',
@@ -17,7 +16,7 @@ const initialPrompt = async () => {
   const promptAnswer: PromptAnswer = await rawlist({
     message: chalk.green('How can we help?'),
     choices: [
-      { name: 'Show list of products', value: PromptAnswer.ListProducts },
+      { name: 'Show all products', value: PromptAnswer.ShowProducts },
       { name: 'Show product details', value: PromptAnswer.ShowProduct },
       { name: 'Add products to shopping cart', value: PromptAnswer.AddToCart },
       { name: 'Checkout shopping cart', value: PromptAnswer.Checkout },
@@ -26,21 +25,15 @@ const initialPrompt = async () => {
   });
 
   switch (promptAnswer) {
-    case PromptAnswer.ListProducts:
-      const table = new Table();
-      const products: ProductType[] = Product.all();
-
-      table.push([chalk.bold.blue('Product'), chalk.bold.blue('Price')]);
-
-      for (const product of products) {
-        table.push([product.name, product.price]);
-      }
-      console.log(table.toString());
-      initialPrompt();
+    case PromptAnswer.ShowProducts:
+      showProductsPrompt();
       break;
 
     case PromptAnswer.ShowProduct:
       showProductPrompt();
+      break;
+
+    case PromptAnswer.AddToCart:
       break;
 
     case PromptAnswer.Exit:

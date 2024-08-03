@@ -4,6 +4,7 @@ import figlet from 'figlet';
 import showProductPrompt from './showProductPrompt';
 import showProductsPrompt from './showProductsPrompt';
 import addToCartPrompt from './addToCartPrompt';
+import checkoutPrompt from './checkoutPrompt';
 
 enum PromptAnswer {
   ShowProducts = 'showProducts',
@@ -40,6 +41,10 @@ const initialPrompt = async () => {
 
     case PromptAnswer.Exit:
       console.log(chalk.red(figlet.textSync('Bye!')));
+      break;
+
+    case PromptAnswer.Checkout:
+      checkoutPrompt();
       break;
 
     default:

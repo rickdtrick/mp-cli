@@ -8,11 +8,11 @@ export type CartItemType = {
 };
 
 export type CartItemCreateType = {
-  productUuid: number,
-  quantity: number
-}
+  productUuid: number;
+  quantity: number;
+};
 
-const filePath = path.join(__dirname , '../data/cartItems.json');
+const filePath = path.join(__dirname, '../data/cartItems.json');
 class CartItem {
   static all = (): CartItemType[] => {
     const data = readFileSync(filePath, 'utf-8');
@@ -21,14 +21,14 @@ class CartItem {
   static find = (uuid: number): CartItemType | undefined =>
     this.all().find((cartItem) => cartItem.uuid === uuid);
   static create = (data: CartItemCreateType): CartItemType | undefined => {
-    const { productUuid, quantity} = data;
+    const { productUuid, quantity } = data;
 
     const uuid = this.#generateUniqueId();
     const newCartItem: CartItemType = {
       uuid,
       productUuid,
-      quantity
-    }
+      quantity,
+    };
 
     try {
       const updatedCart = [...this.all(), newCartItem];
@@ -39,19 +39,26 @@ class CartItem {
     } catch (err) {
       return;
     }
-  }
+  };
+  static totalQty = (productUuid: number): number => {
+    const cartItems = this.all().filter(
+      (cartItem) => cartItem.productUuid === productUuid
+    );
+
+    return cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  };
 
   /** Simple iterator for a unique uuid */
   static #generateUniqueId = (increment: number = 1): number => {
     const cartItems = this.all();
     let uuid = cartItems.length + increment;
 
-    if (cartItems.find(cartItem => cartItem.uuid === uuid)) {
-      return this.#generateUniqueId(increment + 1)
+    if (cartItems.find((cartItem) => cartItem.uuid === uuid)) {
+      return this.#generateUniqueId(increment + 1);
     }
 
     return uuid;
-  }
+  };
 }
 
 export default CartItem;

@@ -60,7 +60,7 @@ describe('initialPrompt', () => {
 
   it('should show "Coming Soon" for unimplemented options', async () => {
     (rawlist as jest.Mock)
-      .mockResolvedValueOnce('comingSoon') 
+      .mockResolvedValueOnce('comingSoon')
       .mockResolvedValueOnce('exit');
 
     await initialPrompt();

@@ -13,6 +13,6 @@ const showProductsPrompt = async () => {
   }
   console.log(table.toString());
   initialPrompt();
-}
+};
 
 export default showProductsPrompt;

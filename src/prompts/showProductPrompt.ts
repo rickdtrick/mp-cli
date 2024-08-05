@@ -24,6 +24,7 @@ const showProductPrompt = async () => {
 
     if (!product) {
       console.error(chalk.red('Product not found.'));
+      initialPrompt();
     } else {
       const table = new Table();
       table.push(

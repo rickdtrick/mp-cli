@@ -1,9 +1,8 @@
-import figlet from 'figlet';
-import initialPrompt from './initialPrompt';
 import { rawlist } from '@inquirer/prompts';
+import chalk from 'chalk';
 import Table from 'cli-table';
 import Product, { ProductType } from '../models/product';
-import chalk from 'chalk';
+import showProductsPrompt from './showProductsPrompt';
 
 jest.mock('@inquirer/prompts');
 jest.mock('cli-table');
@@ -11,14 +10,14 @@ jest.mock('figlet', () => ({
   textSync: jest.fn().mockReturnValue('Mocked Bye!'),
 }));
 
-describe('initialPrompt', () => {
+describe('showProductsPrompt', () => {
   const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation();
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should list all products when "Show all products" is selected', async () => {
+  it('should list all products', async () => {
     (rawlist as jest.Mock)
       .mockResolvedValueOnce('showProducts')
       .mockResolvedValueOnce('exit');
@@ -36,7 +35,7 @@ describe('initialPrompt', () => {
       toString: mockTableToString,
     }));
 
-    await initialPrompt();
+    await showProductsPrompt();
 
     expect(mockTablePush).toHaveBeenCalledWith([
       chalk.bold.blue('Product'),
@@ -47,23 +46,5 @@ describe('initialPrompt', () => {
     }
 
     expect(consoleLogSpy).toHaveBeenCalledWith('Mocked Table');
-  });
-
-  it('should exit when "Exit" is selected', async () => {
-    (rawlist as jest.Mock).mockResolvedValueOnce('exit');
-
-    await initialPrompt();
-
-    expect(consoleLogSpy).toHaveBeenCalledWith(chalk.red('Mocked Bye!'));
-  });
-
-  it('should show "Coming Soon" for unimplemented options', async () => {
-    (rawlist as jest.Mock)
-      .mockResolvedValueOnce('comingSoon')
-      .mockResolvedValueOnce('exit');
-
-    await initialPrompt();
-
-    expect(consoleLogSpy).toHaveBeenCalledWith('Coming Soon');
   });
 });

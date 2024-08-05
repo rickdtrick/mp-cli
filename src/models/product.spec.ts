@@ -23,31 +23,29 @@ describe('Product', () => {
   describe('all', () => {
     it('should return all products', () => {
       (readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockProducts));
-      
+
       const result = Product.all();
-      
+
       expect(result).toEqual(mockProducts);
       expect(readFileSync).toHaveBeenCalledWith(filePath, 'utf-8');
     });
-
   });
 
   describe('find', () => {
     it('should return the product with the given uuid', () => {
       (readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockProducts));
-      
+
       const result = Product.find(2);
-      
+
       expect(result).toEqual(mockProducts[1]);
     });
 
     it('should return undefined if the product is not found', () => {
       (readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockProducts));
-      
+
       const result = Product.find(99);
-      
+
       expect(result).toBeUndefined();
     });
-
-  })
+  });
 });

@@ -24,6 +24,7 @@ const addToCartPrompt = async () => {
 
     if (!product) {
       console.error(chalk.red('Product not found.'));
+      initialPrompt();
     } else {
       const quantity: number | undefined = await number({
         message: `How many ${product.name} do you want?`,

@@ -36,7 +36,9 @@ describe('addToCartPrompt', () => {
     await addToCartPrompt();
 
     expect(Product.find).toHaveBeenCalledWith(1);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(chalk.red('Product not found.'));
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      chalk.red('Product not found.')
+    );
     expect(initialPrompt).toHaveBeenCalled();
   });
 
@@ -45,7 +47,7 @@ describe('addToCartPrompt', () => {
     jest.spyOn(Product, 'all').mockReturnValue([mockProduct]);
     jest.spyOn(Product, 'find').mockReturnValue(mockProduct);
     (rawlist as jest.Mock).mockResolvedValue('1');
-    (number as jest.Mock).mockResolvedValue(2); // User inputs quantity of 2
+    (number as jest.Mock).mockResolvedValue(2);
     jest.spyOn(CartItem, 'create').mockReturnValue(mockCartItem);
 
     await addToCartPrompt();
@@ -58,7 +60,9 @@ describe('addToCartPrompt', () => {
       productUuid: mockProduct.uuid,
       quantity: 2,
     });
-    expect(consoleLogSpy).toHaveBeenCalledWith(chalk.green('Product added to cart!'));
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      chalk.green('Product added to cart!')
+    );
     expect(initialPrompt).toHaveBeenCalled();
   });
 
@@ -67,12 +71,14 @@ describe('addToCartPrompt', () => {
     jest.spyOn(Product, 'all').mockReturnValue([mockProduct]);
     jest.spyOn(Product, 'find').mockReturnValue(mockProduct);
     (rawlist as jest.Mock).mockResolvedValue('1');
-    (number as jest.Mock).mockResolvedValue(2); // User inputs quantity of 2
+    (number as jest.Mock).mockResolvedValue(2);
     jest.spyOn(CartItem, 'create').mockReturnValue(undefined);
 
     await addToCartPrompt();
 
-    expect(consoleLogSpy).toHaveBeenCalledWith(chalk.red('Failed to add product'));
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      chalk.red('Failed to add product')
+    );
     expect(initialPrompt).toHaveBeenCalled();
   });
 });

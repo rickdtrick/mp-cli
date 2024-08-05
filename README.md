@@ -21,7 +21,12 @@
 ```
 #### Note: Running npm run build clears the data
 
-### Running the app
+### Run the app
 ```
   npm start
+```
+
+### Run Test Suite
+```
+  npm test
 ```

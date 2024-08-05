@@ -1,4 +1,4 @@
-type DiscountValue = {
+export type DiscountValue = {
   amount: number;
   rate: number;
 };

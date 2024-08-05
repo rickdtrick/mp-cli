@@ -40,6 +40,7 @@
 ### Dev Notes
 - `/src/data` contains JSON files which then is copied on `/dist/src/data` after `npm run build` which acts as a _database_ for the app
 - `/src/models` simple implementation of an ORM, like with ActiveRecord or Prisma.io
+- Even as a CLI app, I still believe UI/UX is important hence the use of prompts and tables
 
 #### Other considerations
 If I had control with the `price` datatype, I would have it saved as a whole number in [BPS Format](https://www.investopedia.com/ask/answers/what-basis-point-bps/) (`10.00` is saved as `1000`)

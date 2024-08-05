@@ -36,3 +36,11 @@
 ```
   npm test
 ```
+
+### Dev Notes
+- `/src/data` contains JSON files which then is copied on `/dist/src/data` after `npm run build` which acts as a _database_ for the app
+- `/src/models` simple implementation of an ORM, like with ActiveRecord or Prisma.io
+
+#### Other considerations
+If I had control with the `price` datatype, I would have it saved as a whole number in [BPS Format](https://www.investopedia.com/ask/answers/what-basis-point-bps/) (`10.00` is saved as `1000`)
+instead of float/string because it might lead to rounding issues due to [floating-point ](https://floating-point-gui.de/).
